@@ -1,12 +1,12 @@
 {
-    "version": 2,
-    "builds": [
-      { "src": "main.py", "use": "@vercel/python" }
-    ],
-    "routes": [
-      { "src": "/(.*)", "dest": "/main.py" }
-    ],
-    "env": {
-      "APP_MODULE": "main:main_app"
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin",  "value": "*" },
+        { "key": "Access-Control-Allow-Methods", "value": "GET, POST, OPTIONS" },
+        { "key": "Access-Control-Allow-Headers", "value": "Content-Type, Authorization" }
+      ]
     }
-  }
+  ]
+}
