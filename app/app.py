@@ -35,6 +35,7 @@ YANDEX_API_KEY = os.getenv("YANDEX_API_KEY", "")
 
 @app.post("/v1/chat/completions")
 async def completion(request: Request):
+    from fastapi.responses import JSONResponse
     logger.info("Обработка запроса на генерацию ответа.")
     logger.debug(f"Запрос: {request.method} {request.url}")
     logger.debug(f"Заголовки: {request.headers}")
@@ -100,7 +101,10 @@ async def completion(request: Request):
             }
         
             logger.debug("Формирование ответа в формате OpenAI завершено.")
-            return openai_format_response
+            
+            response = JSONResponse(content=openai_format_response)
+            response.headers["Access-Control-Allow-Origin"] = "*"
+            return response
         
     except HTTPException as e:
         logger.error(f"HTTP ошибка: {str(e)}")
