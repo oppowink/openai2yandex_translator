@@ -3,6 +3,7 @@ from app.app import app
 import os, sys, json
 from loguru import logger
 from dotenv import load_dotenv
+from fastapi.middleware.cors import CORSMiddleware
 
 load_dotenv()
 
@@ -25,6 +26,12 @@ else:
     logger.add("logs/debug.log", format="{time} {level} {message}", level=LOG_LEVEL, rotation="100 MB")
 
 main_app = FastAPI(logger=logger)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 main_app.include_router(app)
 
